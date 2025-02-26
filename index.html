@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Add Employee</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" type="text/css" />
+    <style>
+      #success {
+        display: none;
+        color: green;
+        margin-top: 15px;
+      }
+
+      /* Center align form */
+      form {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      /* Compact input fields */
+      .form-control {
+        width: 70%;
+      }
+    </style>
+  </head>
+  <body class="container my-5">
+    <h1 class="mb-4">Add Employee</h1>
+    <form id="addEmployeeForm">
+      <!-- Name -->
+      <div class="mb-3">
+        <label for="name" class="form-label">Name:</label>
+        <input type="text" id="name" class="form-control" required />
+      </div>
+
+      <!-- Age -->
+      <div class="mb-3">
+        <label for="age" class="form-label">Age:</label>
+        <input type="number" id="age" class="form-control" required min="18" />
+      </div>
+
+      <!-- Position -->
+      <div class="mb-3">
+        <label for="position" class="form-label">Position:</label>
+        <input type="text" id="position" class="form-control" required />
+      </div>
+
+      <!-- Department -->
+      <div class="mb-3">
+        <label for="department" class="form-label">Department:</label>
+        <input type="text" id="department" class="form-control" required />
+      </div>
+
+      <!-- Salary -->
+      <div class="mb-3">
+        <label for="salary" class="form-label">Salary:</label>
+        <input type="number" id="salary" class="form-control" required min="1" />
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary">Add Employee</button>
+    </form>
+
+    <!-- Success Message -->
+    <div id="success" >Employee added successfully!</div>
+
+    <script>
+      const addEmployeeForm = document.querySelector("#addEmployeeForm");
+      const successMessage = document.querySelector("#success");
+      const apiUrl = "https://employee-add-backend-Student-neoG-Ca.replit.app/employee";
+
+      addEmployeeForm.addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Collect employee data from the form
+        const employeeData = {
+          name: document.querySelector("#name").value,
+          age: document.querySelector("#age").value,
+          position: document.querySelector("#position").value,
+          department: document.querySelector("#department").value,
+          salary: document.querySelector("#salary").value,
+        };
+
+        // Send data to the API
+        fetch(apiUrl, {
+          method: "POST",
+          body: JSON.stringify(employeeData),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data) {
+              // Show success message
+              successMessage.style.display = "block";
+
+             
+            }
+          })
+          .catch((error) => {
+            console.error("Error adding employee:", error);
+          });
+      });
+    </script>
+  </body>
+</html>
